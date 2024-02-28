@@ -1,0 +1,56 @@
+<template>
+  <div>
+    <div class="CategoriesGrid">
+      <div class="CategoryBlock" v-for="category in categories" :key="category.id">
+        <p>{{ category.name }}</p>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent, ref, onMounted } from 'vue';
+
+export default defineComponent({
+  name: 'CategoriesGrid',
+  setup() {
+    const categories = ref<any[]>([]);
+
+    // Function to fetch categories from the API
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch('https://headless.tebex.io/api/accounts/ts3t-f21ba89d9d470d6c26371c70e2e5a66f8912e75f/categories', {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        });
+        const data = await response.json();
+        categories.value = data.data; // Assuming categories are nested under 'data'
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
+
+    // Fetch categories on component mount
+    onMounted(() => {
+      fetchCategories();
+    });
+
+    return { categories };
+  }
+});
+</script>
+
+<style scoped>
+.CategoriesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 30px;
+  width: 300px;
+  margin: 0px auto;
+}
+.CategoryBlock {
+  margin: 0px auto;
+}
+</style>
