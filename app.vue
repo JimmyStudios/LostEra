@@ -8,9 +8,7 @@
             <CategoriesGrid />
         </div>
       </a-layout-content>
-      <a-layout-footer :style="{ textAlign: 'center' }">
-          FOOTER
-      </a-layout-footer>
+
     </a-layout>
 
     <a-layout-sider
